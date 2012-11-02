@@ -8,24 +8,26 @@ VAR=$HOME/var/monit
 
 mkdir -p $VAR
 
-echo -n "smtp password ? "
+echo -n "smtp password? "
 read PASS
 
-echo -n "email notifications to ? "
+echo -n "email notifications to? "
 read EMAIL
 
-echo -n "what host ? "
+echo -n "what host? "
 read HOST
 
-echo "
-set logfile $LOG
+echo "set daemon 60
+set logfile $HOME/log/monit.log
+set pidfile $HOME/run/monit.pid
+set idfile $HOME/run/monit.id
+set statefile $HOME/run/monit.state
 set mailserver smtp.webfaction.com USERNAME $USER PASSWORD $PASS
 set eventqueue
   basedir $VAR
   slots 100
 set alert $EMAIL
-check host $HOST with address $HOST
+check host $HOST with address $HOME
   if failed port 80 protocol http
-    then alert
-" > $CONF
+    then alert" > $CONF
 
