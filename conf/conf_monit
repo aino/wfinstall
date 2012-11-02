@@ -31,4 +31,4 @@ check host $HOST with address $HOST
   if failed port 80 protocol http
     then alert" > $CONF
 
-cxhmod 600 $CONF
+chmod 600 $CONF
