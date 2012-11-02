@@ -1,10 +1,9 @@
 #!/bin/bash
 
-ETC=$HOME/etc
-CONF=$ETC/supervisord.conf
-LOG=$HOME/log
-PREFIX=$HOME/opt
+CONF=$HOME/etc/supervisord.conf
+LOG=$HOME/log/monit.log
 SECTION="program:monit"
+BIN=$HOME/opt/monit/bin/monit
 
 
 if [ ! -e $CONF ]; then
@@ -17,8 +16,8 @@ fi
 
 echo "
 [$SECTION]
-command=$PREFIX/monit/bin/monit
-stdout_logfile=$LOG/monit.log
+command=$BIN
+stdout_logfile=$LOG
 autorestart=true
 redirect_stderr=true
 stopsignal=INT" >> $CONF

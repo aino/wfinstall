@@ -2,8 +2,30 @@
 
 
 CONF=$HOME/etc/monitrc
+LOG=$HOME/log/monit.log
+USER=`whoami`
+VAR=$HOME/var/monit
 
+mkdir -p $VAR
+
+echo -n "smtp password ? "
+read PASS
+
+echo -n "email notifications to ? "
+read EMAIL
+
+echo -n "what host ? "
+read HOST
 
 echo "
+set logfile $LOG
+set mailserver smtp.webfaction.com USERNAME $USER PASSWORD $PASS
+set eventqueue
+  basedir $VAR
+  slots 100
+set alert $EMAIL
+check host $HOST with address $HOST
+  if failed port 80 protocol http
+    then alert
 " > $CONF
 
