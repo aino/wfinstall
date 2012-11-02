@@ -1,0 +1,8 @@
+#!/bin/bash
+
+
+for d in  bin log log/nginx run etc logs logs/frontend; do
+    if [ ! -d $HOME/$d ]; then
+        mkdir -p $HOME/$d
+    fi
+done

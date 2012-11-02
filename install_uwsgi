@@ -1,0 +1,12 @@
+#!/bin/bash
+
+VERSION=1.2.3
+
+cd  ~/tmp
+if [ ! -e uwsgi-$VERSION.tar.gz ]; then
+    wget http://projects.unbit.it/downloads/uwsgi-$VERSION.tar.gz
+fi
+tar xzf uwsgi-$VERSION.tar.gz
+cd uwsgi-$VERSION
+make
+cp uwsgi $HOME/bin/

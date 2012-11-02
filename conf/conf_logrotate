@@ -1,0 +1,27 @@
+#!/bin/bash
+
+
+INCLUDE=$HOME/etc/logrotate.d
+CONF=$HOME/etc/logrotate.conf
+LOG=$HOME/log
+
+
+if [ ! -e $INCLUDE ]; then
+    mkdir -p $INCLUDE
+fi
+
+
+if [ -e $CONF ]; then
+    echo "Error: $CONF already exists."
+    exit 1
+fi
+
+echo "weekly
+missingok
+rotate 4
+notifempty
+create
+
+include $INCLUDE
+" > $CONF
+

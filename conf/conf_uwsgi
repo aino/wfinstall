@@ -1,0 +1,28 @@
+#!/bin/bash
+
+
+CONF=$HOME/etc/uwsgi.ini
+PROJECT=$HOME/$LOGNAME
+WORKON_HOME=${WORKON_HOME:="$HOME/.virtualenvs"}
+RUN=$HOME/run
+
+
+echo "[$LOGNAME]
+home = $WORKON_HOME/$LOGNAME
+socket = $RUN/$LOGNAME.sock
+pidfile = $RUN/$LOGNAME.pid
+master = true
+processes = 1
+threads = 4
+pythonpath = $PROJECT/src/$LOGNAME
+pythonpath = $PROJECT/src
+env = DJANGO_SETTINGS_MODULE=$LOGNAME.settings
+env = LANG=sv_SE.UTF-8
+env = LC_ALL=sv_SE.UTF-8
+harakiri = 120
+post-buffering = 2000000
+max-requests = 5000
+;reload-on-as = 45
+;reload-on-rss = 35
+disable-logging = true
+module = django.core.handlers.wsgi:WSGIHandler()" > $CONF

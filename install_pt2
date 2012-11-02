@@ -1,0 +1,19 @@
+#/bin/bash
+
+
+./install_nginx
+./install_uwsgi
+./install_memcached
+./install_redis #just for fun
+./install_cron
+./install_binutils
+
+./conf/conf_logrotate
+./conf/conf_nginx
+./conf/conf_redis
+./conf/conf_uwsgi
+./conf/supervisor
+./conf/supervisor_nginx
+./conf/supervisor_uwsgi
+./conf/supervisor_memcached
+#./conf/supervisor_redis

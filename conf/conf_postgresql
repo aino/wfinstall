@@ -1,0 +1,30 @@
+#!/bin/bash
+
+
+POSTGRES=$HOME/opt/postgresql
+ETC=$HOME/etc
+RUN=$HOME/run
+
+
+echo "# -----------------------------
+# PostgreSQL configuration file
+# -----------------------------
+
+data_directory = '$POSTGRES/data'
+hba_file = '$ETC/pg_hba.conf'
+ident_file = '$ETC/pg_ident.conf'
+listen_addresses = ''
+max_connections = 100
+unix_socket_directory = '$RUN'
+unix_socket_permissions = 0700
+shared_buffers = 4MB
+log_line_prefix = '%t '
+datestyle = 'iso, ymd'
+lc_messages = 'sv_SE.UTF-8'
+lc_monetary = 'sv_SE.UTF-8'
+lc_numeric = 'sv_SE.UTF-8'
+lc_time = 'sv_SE.UTF-8'
+default_text_search_config = 'pg_catalog.swedish'" > $ETC/postgresql.conf
+
+echo "local    all    $LOGNAME    trust" > $ETC/pg_hba.conf
+touch $ETC/pg_ident.conf

@@ -1,0 +1,25 @@
+#!/bin/bash
+
+PREFIX=$HOME/opt/nginx
+LOG=$HOME/log/nginx
+RUN=$HOME/run
+VERSION=1.2.1
+
+cd ~/tmp
+if [ ! -e nginx-$VERSION.tar.gz ]; then
+    wget http://nginx.org/download/nginx-$VERSION.tar.gz
+fi
+tar xzf nginx-$VERSION.tar.gz
+cd nginx-$VERSION
+./configure \
+    --with-http_sub_module \
+    --with-http_mp4_module \
+    --with-http_realip_module \
+    --prefix=$PREFIX \
+    --error-log-path=$LOG/error.log \
+    --http-log-path=$LOG/access.log \
+    --pid-path=$RUN/nginx.pid \
+    --lock-path=$RUN/nginx.lock \
+    --conf-path=$HOME/etc/nginx/nginx.conf
+
+make && make install

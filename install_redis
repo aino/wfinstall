@@ -1,0 +1,15 @@
+#!/bin/bash
+
+PREFIX=$HOME/opt/redis
+VERSION=2.4.14
+
+cd  ~/tmp
+if [ ! -e redis-$VERSION.tar.gz ]; then
+    wget http://redis.googlecode.com/files/redis-$VERSION.tar.gz
+fi
+tar xzf redis-$VERSION.tar.gz
+cd redis-$VERSION
+make
+make PREFIX=$PREFIX install
+ln -s $PREFIX/bin/redis-server ~/bin/
+mkdir $PREFIX/data

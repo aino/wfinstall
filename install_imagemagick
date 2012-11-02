@@ -1,0 +1,13 @@
+#!/bin/bash
+
+PREFIX=$HOME/opt/imagemagick
+
+cd  ~/tmp
+if [ ! -e ImageMagick.tar.gz ]; then
+    wget http://mirror.checkdomain.de/imagemagick/ImageMagick.tar.gz
+fi
+tar xzf ImageMagick.tar.gz
+cd ImageMagick*
+./configure --prefix=$PREFIX
+make
+make install

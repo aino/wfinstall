@@ -1,0 +1,33 @@
+#!/bin/bash
+
+
+ETC=$HOME/etc
+LOG=$HOME/log
+RUN=$HOME/run
+CONF=$HOME/etc/supervisord.conf
+
+
+if [ ! -d $ETC ]; then
+    mkdir -p $ETC
+fi
+
+if [ -e $CONF ]; then
+    read -p "Warning: $CONF already exists, do you want to overwrite it (Y/n)? "
+    if [ "$REPLY" == "n" ]; then
+        exit $?
+    fi
+fi
+
+echo "[supervisord]
+logfile=$LOG/supervisord.log
+pidfile=$RUN/supervisord.pid
+
+[supervisorctl]
+serverurl=unix://$RUN/supervisor.sock
+
+[unix_http_server]
+file=$HOME/run/supervisor.sock
+chmod=0700
+
+[rpcinterface:supervisor]
+supervisor.rpcinterface_factory = supervisor.rpcinterface:make_main_rpcinterface" > $CONF

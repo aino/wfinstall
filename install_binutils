@@ -1,0 +1,25 @@
+#!/bin/bash
+
+RUN=$HOME/run
+
+echo "#!/bin/bash
+
+ps -u \$LOGNAME -o rss,command | grep -v peruser | awk '{sum+=\$1} END {print sum/1024}'" > ~/bin/mem
+chmod 700 ~/bin/mem
+
+echo "#!/bin/bash
+
+kill -HUP \`cat $RUN/\$1.pid\`" > ~/bin/hup
+chmod 700 ~/bin/hup
+
+echo "#!/bin/bash
+
+kill -HUP \`cat $RUN/$LOGNAME.pid\`" > ~/bin/reload
+chmod 700 ~/bin/reload
+
+echo "#!/bin/bash
+
+source $WORKON_HOME/$LOGNAME/bin/activate
+cd $HOME/$LOGNAME/src/$LOGNAME
+python manage.py cleanup" > ~/bin/cleanup
+chmod 700 ~/bin/cleanup

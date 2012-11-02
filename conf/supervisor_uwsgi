@@ -1,0 +1,24 @@
+#!/bin/bash
+
+ETC=$HOME/etc
+CONF=$ETC/supervisord.conf
+LOG=$HOME/log
+SECTION="program:$LOGNAME"
+
+
+if [ ! -e $CONF ]; then
+    echo "Error: $CONF does not exist."
+    exit 1
+elif [ `cat $CONF | grep -c $SECTION` -ne 0 ]; then
+    echo "Error: $CONF already contains a $SECTION section."
+    exit 1
+fi
+
+
+echo "
+[$SECTION]
+command=`which uwsgi` --ini $HOME/etc/uwsgi.ini:$LOGNAME
+stdout_logfile=$LOG/$LOGNAME.log
+autorestart=true
+redirect_stderr=true
+stopsignal=QUIT" >> $CONF

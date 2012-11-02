@@ -1,0 +1,12 @@
+#!/bin/bash
+
+minute() { echo $[ ($RANDOM % 60) ]; }
+hour() { echo $[ ($RANDOM % 3) + 4]; }
+
+echo "*/5 * * * *		`which supervisord` -c $HOME/etc/supervisord.conf > /dev/null 2>&1
+$(minute) $(hour) * * *		/usr/sbin/logrotate -s $HOME/.logrotate.status $HOME/etc/logrotate.conf
+$(minute) $(hour) * * *		$HOME/bin/cleanup" > ~/tmp/cron
+
+crontab ~/tmp/cron
+rm ~/tmp/cron
+

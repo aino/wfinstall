@@ -1,0 +1,108 @@
+#!/bin/bash
+
+
+CONF=$HOME/etc/nginx/nginx.conf
+LOG=$HOME/log
+PROJECT=$HOME/$LOGNAME/src/$LOGNAME
+RUN=$HOME/run
+
+
+if [ -e $CONF ]; then
+    read -p "Warning: $CONF already exists, do you want to overwrite (Y/n)? "
+    if [ "$REPLY" == "n" ]; then
+        exit 0
+    fi
+fi
+
+if [ ! -d $HOME/etc/nginx ]; then
+    echo "Error: No config direcotry found at $HOME/etc/nginx"
+    exit 1
+fi
+
+echo -n "What port? "
+read PORT
+
+echo -n "What domain? "
+read DOMAIN
+
+echo "
+#user  nobody;
+worker_processes  1;
+daemon    off;
+
+#error_log  logs/error.log;
+#error_log  logs/error.log  notice;
+#error_log  logs/error.log  info;
+
+#pid        logs/nginx.pid;
+
+
+events {
+    worker_connections  1024;
+}
+
+
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+    set_real_ip_from 127.0.0.1;
+    real_ip_header X-Forwarded-For;
+    client_max_body_size 500m;
+
+    #log_format  main  '\$remote_addr - \$remote_user [\$time_local] "\$request" '
+    #                  '\$status \$body_bytes_sent "\$http_referer" '
+    #                  '"\$http_user_agent" "\$http_x_forwarded_for"';
+
+    #access_log  logs/access.log  main;
+
+    sendfile        on;
+    #tcp_nopush     on;
+
+    #keepalive_timeout  0;
+    keepalive_timeout  65;
+
+    gzip  on;
+
+    server {
+        listen localhost:$PORT;
+        server_name $DOMAIN;
+        rewrite (.*) http://www.$DOMAIN\$1 redirect;
+    }
+
+    server {
+        listen localhost:$PORT;
+        server_name www.$DOMAIN $LOGNAME.lan;
+
+        access_log $LOG/nginx/${LOGNAME}_access.log;
+        error_log $LOG/nginx/${LOGNAME}_error.log;
+
+        location /robots.txt {
+            alias $PROJECT/media/robots.txt;
+        }
+
+        location /favicon.ico {
+            alias $PROJECT/media/favicon.ico;
+        }
+
+        location /media {
+            alias $PROJECT/media;
+        }
+
+        location /static {
+            alias $PROJECT/site_static;
+        }
+
+        location / {
+            uwsgi_pass unix://$RUN/$LOGNAME.sock;
+            include uwsgi_params;
+        }
+    }
+}" > $CONF
+
+
+echo "$LOG/nginx/*.log {
+    rotate 12
+    postrotate
+        kill -s USR1 'cat $RUN/nginx.pid'
+    endscript
+}" > $HOME/etc/logrotate.d/nginx

@@ -1,0 +1,17 @@
+#!/bin/bash
+
+PREFIX=$HOME/opt/monit
+VERSION=5.5
+NAME=monit-$VERSION
+
+cd ~/tmp
+if [ ! -e $NAME ]; then
+    wget http://mmonit.com/monit/dist/$NAME.tar.gz
+fi
+tar xzf $NAME.tar.gz
+cd $NAME
+./configure \
+    --prefix=$PREFIX \
+    --without-pam
+
+make && make install

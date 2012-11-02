@@ -1,0 +1,24 @@
+#!/bin/bash
+
+ETC=$HOME/etc
+CONF=$ETC/supervisord.conf
+LOG=$HOME/log
+PREFIX=$HOME/opt
+SECTION="program:nginx"
+
+
+if [ ! -e $CONF ]; then
+    echo "Error: $CONF does not exist."
+    exit 1
+elif [ `cat $CONF | grep -c $SECTION` -ne 0 ]; then
+    echo "Error: $CONF already contains a $SECTION section."
+    exit 1
+fi
+
+echo "
+[$SECTION]
+command=$PREFIX/nginx/sbin/nginx
+stdout_logfile=$LOG/nginx.log
+autorestart=true
+redirect_stderr=true
+stopsignal=INT" >> $CONF

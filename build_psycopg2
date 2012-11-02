@@ -1,0 +1,11 @@
+#!/bin/bash
+
+PREFIX=$HOME/opt
+cd  ~/tmp
+if [ ! -e psycopg2-2.4.2.tar.gz ]; then
+    wget http://initd.org/psycopg/tarballs/PSYCOPG-2-4/psycopg2-2.4.2.tar.gz
+fi
+tar xzf psycopg2-2.4.2.tar.gz
+cd psycopg2-2.4.2
+echo "pg_config=$PREFIX/postgresql/bin/pg_config" >> setup.cfg
+python setup.py build
