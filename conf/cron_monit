@@ -3,7 +3,7 @@
 CRON=$HOME/tmp/cron
 crontab -l > $CRON
 
-elif [ `cat $CRON | grep -c monit` -ne 0 ]; then
+if [ `cat $CRON | grep -c monit` -ne 0 ]; then
     echo "Error: crontab already contains monit."
     exit 1
 fi
