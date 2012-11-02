@@ -1,0 +1,9 @@
+#!/bin/bash
+
+
+CONF=$HOME/etc/monitrc
+
+
+echo "
+" > $CONF
+
