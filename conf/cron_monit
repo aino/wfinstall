@@ -8,6 +8,6 @@ elif [ `cat $CRON | grep -c monit` -ne 0 ]; then
     exit 1
 fi
 
-echo "*/5 * * * *		$HOME/opt/monit/bin/monit -c$HOME/etc/monitrc" >> $CRON
+echo "*/5 * * * *  $HOME/opt/monit/bin/monit -c$HOME/etc/monitrc" >> $CRON
 crontab $CRON
 
