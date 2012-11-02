@@ -27,7 +27,7 @@ set eventqueue
   basedir $VAR
   slots 100
 set alert $EMAIL
-check host $HOST with address $HOME
+check host $HOST with address $HOST
   if failed port 80 protocol http
     then alert" > $CONF
 
