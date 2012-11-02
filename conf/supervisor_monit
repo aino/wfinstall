@@ -1,0 +1,24 @@
+#!/bin/bash
+
+CONF=$HOME/etc/supervisord.conf
+LOG=$HOME/log/monit.log
+SECTION="program:monit"
+CMD="$HOME/opt/monit/bin/monit -Ic$HOME/etc/monitrc"
+
+
+if [ ! -e $CONF ]; then
+    echo "Error: $CONF does not exist."
+    exit 1
+elif [ `cat $CONF | grep -c $SECTION` -ne 0 ]; then
+    echo "Error: $CONF already contains a $SECTION section."
+    exit 1
+fi
+
+echo "
+[$SECTION]
+command=$CMD
+stdout_logfile=$LOG
+autorestart=true
+redirect_stderr=true
+stopsignal=INT" >> $CONF
+
