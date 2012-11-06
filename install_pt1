@@ -1,4 +1,0 @@
-#/bin/bash
-
-./make_dirs
-./install_env

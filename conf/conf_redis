@@ -1,50 +1,24 @@
 #!/bin/bash
 
 
-REDIS=$HOME/opt/redis
-DATA=$REDIS/data
-LOG=$HOME/log
+DATA=$HOME/var/redis
 RUN=$HOME/run
+CONF=$HOME/etc/redis.conf
 
-if [ ! -d $REDIS ]; then 
-    mkdir -p $REDIS
+
+if [ ! -d $DATA ]; then 
+    mkdir -p $DATA
 fi
 
+echo -n "What port? "
+read PORT
 
-echo "daemonize no
-pidfile $RUN/redis.pid
-port 0
-unixsocket $RUN/redis.sock
-unixsocketperm 700
-timeout 300
-loglevel notice
-logfile stdout
-databases 1
-save 900 1
-save 300 10
-save 60 10000
-rdbcompression yes
-dbfilename dump.rdb
-dir $DATA
-slave-serve-stale-data yes
-appendonly no
-appendfsync everysec
-no-appendfsync-on-rewrite no
-auto-aof-rewrite-percentage 100
-auto-aof-rewrite-min-size 64mb
-slowlog-log-slower-than 10000
-slowlog-max-len 1024
-vm-enabled no
-vm-swap-file $DATA/redis.swap
-vm-max-memory 16777216
-vm-page-size 32
-vm-pages 134217728
-vm-max-threads 4
-hash-max-zipmap-entries 512
-hash-max-zipmap-value 64
-list-max-ziplist-entries 512
-list-max-ziplist-value 64
-set-max-intset-entries 512
-zset-max-ziplist-entries 128
-zset-max-ziplist-value 64
-activerehashing yes" > $HOME/etc/redis.conf
+rm $CONF
+
+while read line
+do
+    L=`eval echo "$line"`
+    if [ "$L" ]; then
+        echo $L >> $CONF
+    fi
+done < "$(dirname $0)/redis.conf"

@@ -3,14 +3,15 @@
 PREFIX=$HOME/opt/nginx
 LOG=$HOME/log/nginx
 RUN=$HOME/run
-VERSION=1.2.1
+VERSION=1.2.4
+NAME=nginx-$VERSION
 
 cd ~/tmp
-if [ ! -e nginx-$VERSION.tar.gz ]; then
-    wget http://nginx.org/download/nginx-$VERSION.tar.gz
+if [ ! -e $NAME.tar.gz ]; then
+    wget http://nginx.org/download/$NAME.tar.gz
 fi
-tar xzf nginx-$VERSION.tar.gz
-cd nginx-$VERSION
+tar xzf $NAME.tar.gz
+cd $NAME
 ./configure \
     --with-http_sub_module \
     --with-http_mp4_module \

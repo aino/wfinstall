@@ -1,0 +1,16 @@
+#!/bin/bash
+
+
+DATA=$HOME/var/mongodb
+CONF=$HOME/etc/mongodb.conf
+
+
+if [ ! -d $DATA ]; then 
+    mkdir -p $DATA
+fi
+
+echo -n "What port? "
+read PORT
+
+echo "dbpath = $DATA
+port = $PORT" > $CONF

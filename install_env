@@ -19,28 +19,17 @@ chmod 600 $HOME/.ssh/*
 
 if [[ $HOSTNAME ==  *webfaction* ]]; then
     mkdir -p $HOME/lib/python2.7
+    easy_install-2.7 pip
 fi
 
 
-easy_install-2.7 pip
-
-freeze=`pip freeze`
-if [ `echo $freeze | grep -c virtualenv\=\=` -eq 0 ]; then
-    `pip install --user virtualenv`
-fi
-if [ `echo $freeze | grep -c virtualenvwrapper\=\=` -eq 0 ]; then
-    `pip install --user virtualenvwrapper`
-fi
-if [ `echo $freeze | grep -c supervisor\=\=` -eq 0 ]; then
-    `pip install --user supervisor`
-fi
- 
+pip install --user virtualenv virtualenvwrapper supervisor
 
 if [ `cat $HOME/.bashrc | grep -c virtualenvwrapper` -eq 0 ]; then
     if [[ $HOSTNAME ==  *webfaction* ]]; then
         CONF="\nexport VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python2.7"
     fi
-    CONF="$CONF\nsource `which virtualenvwrapper.sh`\nexport PATH=~/bin:~/bin/.local/bin:\$PATH"
+    CONF="$CONF\nsource `which virtualenvwrapper.sh`\nexport PATH=~/bin:~/.local/bin:\$PATH"
     echo -e $CONF >> $HOME/.bashrc
 fi
 
