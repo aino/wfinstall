@@ -1,13 +1,13 @@
 #!/bin/bash
 
 LIBEVENT_PREFIX=$HOME/opt/libevent
-LIBEVENT_VERSION=2.0.19
+LIBEVENT_VERSION=2.0.20
 MEMCACHED_PREFIX=$HOME/opt/memcached
-MEMCACHED_VERSION=1.4.13
+MEMCACHED_VERSION=1.4.15
 
 
 
-cd  ~/tmp
+cd  $HOME/tmp
 if [ ! -e libevent-$LIBEVENT_VERSION-stable.tar.gz ]; then
     wget https://github.com/downloads/libevent/libevent/libevent-$LIBEVENT_VERSION-stable.tar.gz
 fi

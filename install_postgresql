@@ -32,3 +32,5 @@ do
 $PREFIX/bin/$cmd \"\$@\" -h $HOME/run" > ~/bin/$cmd
     chmod 700 $HOME/bin/$cmd
 done
+
+ln -s $PREFIX/bin/pg_config $HOME/bin/

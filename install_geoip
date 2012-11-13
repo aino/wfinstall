@@ -1,0 +1,23 @@
+#!/bin/bash
+
+PREFIX=$HOME/opt/geoip
+VERSION=1.4.8
+NAME=GeoIP-$VERSION
+
+cd $HOME/tmp
+if [ ! -e $NAME.tar.gz ]; then
+    wget http://www.maxmind.com/download/geoip/api/c/$NAME.tar.gz
+fi
+
+tar xzf $NAME.tar.gz
+cd $NAME
+./configure --prefix=$PREFIX
+make && make install
+
+cd $PREFIX/share/GeoIP
+wget http://www.maxmind.com/download/geoip/database/GeoLiteCountry/GeoIP.dat.gz
+gunzip GeoIP.dat.gz
+wget http://www.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz
+gunzip GeoLiteCity.dat.gz
+wget http://www.maxmind.com/download/geoip/database/GeoIPv6.dat.gz
+gunzip GeoIPv6.dat.gz
