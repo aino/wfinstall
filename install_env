@@ -22,8 +22,24 @@ if [[ $HOSTNAME ==  *webfaction* ]]; then
     easy_install-2.7 pip
 fi
 
+function pyinstall {
+    PACKAGE=$1
+    VERSION=$2
+    NAME=$PACKAGE-$VERSION
+    cd $HOME/tmp
+    if [ ! -e $NAME.tar.gz ]; then
+        wget http://pypi.python.org/packages/source/${PACKAGE:0:1}/$PACKAGE/$NAME.tar.gz
+    fi
+    tar xzf $NAME.tar.gz
+    cd $NAME
+    python2.7 setup.py build && python2.7 setup.py install
+} 
 
-pip install --user virtualenv virtualenvwrapper supervisor
+
+pyinstall virtualenv 1.8.2
+pyinstall virtualenvwrapper 3.6
+pyinstall supervisor 3.0b1
+
 
 if [ `cat $HOME/.bashrc | grep -c virtualenvwrapper` -eq 0 ]; then
     if [[ $HOSTNAME ==  *webfaction* ]]; then
