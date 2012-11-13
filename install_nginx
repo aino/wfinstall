@@ -3,7 +3,7 @@
 PREFIX=$HOME/opt/nginx
 LOG=$HOME/log/nginx
 RUN=$HOME/run
-VERSION=1.2.4
+VERSION=1.2.5
 NAME=nginx-$VERSION
 
 cd ~/tmp

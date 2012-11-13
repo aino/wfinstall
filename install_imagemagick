@@ -9,5 +9,4 @@ fi
 tar xzf ImageMagick.tar.gz
 cd ImageMagick*
 ./configure --prefix=$PREFIX
-make
-make install
+make && make install
